@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RSVP for Treasured Ten | EventHub</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@200..900&display=swap');
+        
+        body {
+            font-family: Unbounded, sans-serif;
+            background-color: #1a1a1a;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        .navbar {
+            background-color: #2a2a2a;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 123, 255, 0.2);
+            animation: slideDown 0.8s ease-out;
+        }
+
+        .logo {
+            font-size: 1.5em;
+            color: #007bff;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+            text-decoration: none;
+        }
+
+        .logo:hover {
+            color: #0056b3;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links li {
+            margin-left: 20px;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1em;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #007bff;
+            transform: translateY(-2px);
+        }
+        
+        .rsvp-container {
+            display: flex;
+            flex: 1;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            animation: fadeIn 1s ease-in-out;
+        }
+        
+        .rsvp-card {
+            background-color: #2a2a2a;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            width: 100%;
+            max-width: 600px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .rsvp-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 123, 255, 0.2);
+        }
+        
+        .rsvp-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, #007bff, #00bfff);
+        }
+        
+        .rsvp-header {
+            text-align: center;
+            margin-bottom: 30px;
+            animation: slideUp 1s ease-out;
+        }
+        
+        .rsvp-header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+        
+        .rsvp-header p {
+            color: #aaa;
+            font-size: 0.9em;
+        }
+        
+        .event-preview {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            align-items: center;
+            background-color: #333;
+            padding: 15px;
+            border-radius: 10px;
+            animation: fadeIn 1s ease-in-out 0.3s forwards;
+            opacity: 0;
+        }
+        
+        .event-preview-image {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        
+        .event-preview-info h3 {
+            margin: 0 0 5px 0;
+            font-size: 1.2em;
+        }
+        
+        .event-preview-meta {
+            font-size: 0.8em;
+            color: #aaa;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            animation: fadeIn 1s ease-in-out 0.6s forwards;
+            opacity: 0;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #ddd;
+            font-size: 0.9em;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            background-color: #333;
+            border: 1px solid #444;
+            border-radius: 8px;
+            color: #fff;
+            font-family: inherit;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+        }
+        
+        .rsvp-options {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            animation: fadeIn 1s ease-in-out 0.9s forwards;
+            opacity: 0;
+        }
+        
+        .rsvp-option {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .rsvp-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid #444;
+            background-color: transparent;
+            color: #fff;
+            font-family: inherit;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .rsvp-btn:hover {
+            border-color: #007bff;
+            transform: translateY(-3px);
+        }
+        
+        .rsvp-btn.active {
+            background: linear-gradient(to right, #007bff, #00bfff);
+            border-color: transparent;
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+        }
+        
+        .rsvp-btn.active:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 123, 255, 0.4);
+        }
+        
+        .guests-field {
+            animation: fadeIn 1s ease-in-out 1.2s forwards;
+            opacity: 0;
+        }
+        
+        .additional-info {
+            margin-top: 30px;
+            animation: fadeIn 1s ease-in-out 1.5s forwards;
+            opacity: 0;
+        }
+        
+        .additional-info textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(to right, #007bff, #00bfff);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: bold;
+            width: 100%;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-top: 20px;
+            animation: fadeIn 1s ease-in-out 1.8s forwards;
+            opacity: 0;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 123, 255, 0.4);
+        }
+        
+        .submit-btn:disabled {
+            background: #444;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .confirmation-message {
+            text-align: center;
+            padding: 30px;
+            animation: fadeIn 1s ease-in-out;
+            display: none;
+        }
+        
+        .confirmation-message h2 {
+            color: #00bfff;
+            margin-bottom: 15px;
+        }
+        
+        .confirmation-message p {
+            margin-bottom: 25px;
+        }
+        
+        .confirmation-icon {
+            font-size: 3em;
+            color: #00bfff;
+            margin-bottom: 20px;
+            animation: bounce 1s;
+        }
+        
+        /* Animations */
+        @keyframes slideDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-20px);}
+            60% {transform: translateY(-10px);}
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .rsvp-card {
+                padding: 30px;
+            }
+            
+            .navbar {
+                flex-direction: column;
+                padding: 10px;
+            }
+            
+            .nav-links {
+                flex-direction: column;
+                align-items: center;
+                margin-top: 10px;
+            }
+            
+            .nav-links li {
+                margin: 10px 0;
+            }
+            
+            .rsvp-options {
+                flex-direction: column;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .rsvp-card {
+                padding: 25px 20px;
+            }
+            
+            .rsvp-header h1 {
+                font-size: 1.5em;
+            }
+            
+            .event-preview {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .logo {
+                font-size: 1.2em;
+            }
+            
+            .nav-links a {
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="logo">EventHub</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="#events">Events</a></li>
+            <li><a href="#giveaways">Giveaways</a></li>
+            <li><a href="login.html">Login</a></li>
+        </ul>
+    </nav>
+    
+    <div class="rsvp-container">
+        <div class="rsvp-card">
+            <div class="rsvp-form" id="rsvpForm">
+                <div class="rsvp-header">
+                    <h1>RSVP</h1>
+                    <p>Let us know if you'll be attending</p>
+                </div>
+                
+                <div class="event-preview">
+                    <img src="https://images.unsplash.com/photo-1567593810070-2ac28ac555aa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80" alt="Treasured Ten Exhibition" class="event-preview-image">
+                    <div class="event-preview-info">
+                        <h3>Treasured Ten: Selections from the Costume Collection</h3>
+                        <div class="event-preview-meta">
+                            <div>June 25, 2023 | 9:30 AM</div>
+                            <div>Chicago History Museum</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <form id="rsvpFormData">
+                    <div class="form-group">
+                        <label for="name">Your Name</label>
+                        <input type="text" id="name" class="form-control" placeholder="Enter your full name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Will you be attending?</label>
+                        <div class="rsvp-options">
+                            <div class="rsvp-option">
+                                <button type="button" class="rsvp-btn active" id="rsvpYes">
+                                    Yes, I'll be there!
+                                </button>
+                            </div>
+                            <div class="rsvp-option">
+                                <button type="button" class="rsvp-btn" id="rsvpNo">
+                                    Can't make it
+                                </button>
+                            </div>
+                        </div>
+                        <input type="hidden" id="attending" name="attending" value="yes">
+                    </div>
+                    
+                    <div class="form-group guests-field" id="guestsField">
+                        <label for="guests">Number of Guests (including yourself)</label>
+                        <select id="guests" class="form-control" name="guests">
+                            <option value="1">1 (Just me)</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6+</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group additional-info">
+                        <label for="message">Additional Information (Optional)</label>
+                        <textarea id="message" class="form-control" placeholder="Dietary restrictions, special requirements, etc." name="message"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn" id="submitBtn">Submit RSVP</button>
+                </form>
+            </div>
+            
+            <div class="confirmation-message" id="confirmationMessage">
+                <div class="confirmation-icon">✓</div>
+                <h2>Thank You!</h2>
+                <p>Your RSVP has been received. We look forward to seeing you at the event!</p>
+                <p>A confirmation has been sent to your email address.</p>
+                <a href="index.html" class="submit-btn">Back to Home</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const rsvpYes = document.getElementById('rsvpYes');
+            const rsvpNo = document.getElementById('rsvpNo');
+            const attendingField = document.getElementById('attending');
+            const guestsField = document.getElementById('guestsField');
+            const rsvpForm = document.getElementById('rsvpFormData');
+            const submitBtn = document.getElementById('submitBtn');
+            const rsvpFormContainer = document.getElementById('rsvpForm');
+            const confirmationMessage = document.getElementById('confirmationMessage');
+            
+            // Handle RSVP option selection
+            rsvpYes.addEventListener('click', function() {
+                rsvpYes.classList.add('active');
+                rsvpNo.classList.remove('active');
+                attendingField.value = 'yes';
+                guestsField.style.display = 'block';
+            });
+            
+            rsvpNo.addEventListener('click', function() {
+                rsvpNo.classList.add('active');
+                rsvpYes.classList.remove('active');
+                attendingField.value = 'no';
+                guestsField.style.display = 'none';
+            });
+            
+            // Handle form submission
+            rsvpForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Simulate form processing
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Processing...';
+                
+                // In a real app, you would send the data to your server here
+                setTimeout(function() {
+                    // Show confirmation message
+                    rsvpFormContainer.style.display = 'none';
+                    confirmationMessage.style.display = 'block';
+                }, 1500);
+            });
+            
+            // Initialize form state
+            guestsField.style.display = 'block';
+        });
+    </script>
+</body>
+</html>

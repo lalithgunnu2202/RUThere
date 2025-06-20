@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock title %} | RUThere</title>
+    {% block custom_style %}{% endblock custom_style %}
+</head>
+<body>
+    <div class="container">
+        {% block navbar %}
+        <div class="navbar">
+        <a style="text-decoration: none; color: inherit;" href="{% url "student_home" %}"><div class="logo">EventHub</div></a>
+            <ul class="nav-links">
+                <li><a href="{% url "student_home" %}">Home</a></li>
+                <li><a href="{% url "login" %}">Login</a></li>
+            </ul>
+        </div>
+        {% endblock navbar %}
+    {% block body %}{% endblock body %}
+    </div>
+</body>

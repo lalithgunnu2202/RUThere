@@ -1,0 +1,268 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock title %}
+{% block custom_style %}
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@200..900&display=swap');
+        body {
+            font-family: Unbounded, sans-serif;
+            background-color: #1a1a1a;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            position: relative;
+            text-align: center;
+            padding: 20px 0;
+            overflow: hidden;
+        }
+        .header img {
+            width: 100%;
+            opacity: 30%;
+            height: auto;
+            animation: fadeIn 2s ease-in-out;
+        }
+        .header-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: slideUp 1.5s ease-out;
+        }
+        .header-text h1 {
+            font-size: 2.5em;
+            margin: 0;
+            color: #ffffff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+        .header-text p {
+            font-size: 1em;
+            margin: 5px 0;
+            opacity: 0;
+            animation: fadeInText 2s ease-in-out 1.5s forwards;
+        }
+        .navbar {
+            background-color: #2a2a2a;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 123, 255, 0.2);
+            animation: slideDown 0.8s ease-out;
+        }
+
+        .logo {
+            font-size: 1.5em;
+            color: #007bff;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+        }
+
+        .logo:hover {
+            color: #0056b3;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links li {
+            margin-left: 20px;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1em;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #007bff;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                padding: 10px;
+            }
+            .nav-links {
+                flex-direction: column;
+                align-items: center;
+                margin-top: 10px;
+            }
+            .nav-links li {
+                margin: 10px 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 1.2em;
+            }
+            .nav-links a {
+                font-size: 0.9em;
+            }
+        }
+
+        /* Animations */
+        @keyframes slideDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .carousel {
+            display: flex;
+            overflow-x: auto;
+            gap: 10px;
+            padding: 10px 0;
+            scroll-behavior: smooth;
+        }
+        .carousel img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        .carousel img:hover {
+            transform: scale(1.1);
+        }
+        .giveaways {
+            margin-top: 20px;
+        }
+        .giveaways h2 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            animation: bounceIn 1s ease-out;
+        }
+        .giveaways h2 span {
+            color: #007bff;
+        }
+        .gallery {
+            display: flex;
+            gap: 20px;
+        }
+        .gallery-item {
+            position: relative;
+            text-align: center;
+            overflow: hidden;
+        }
+        .gallery-item img {
+            width: 200px;
+            height: 400px;
+            border-radius: 10px;
+            transition: transform 0.5s ease;
+        }
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+        .gallery-item span {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: #007bff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            animation: pulse 1.5s infinite;
+        }
+        .gallery-item p {
+            margin: 5px 0;
+            transition: color 0.3s ease;
+        }
+        .gallery-item:hover p {
+            color: #007bff;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-text h1 {
+                font-size: 1.5em;
+            }
+            .header-text p {
+                font-size: 0.9em;
+            }
+            .carousel {
+                justify-content: center;
+            }
+            .gallery {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+        }
+        @media (max-width: 480px) {
+            .header-text h1 {
+                font-size: 1.2em;
+            }
+            .header-text p {
+                font-size: 0.8em;
+            }
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideUp {
+            from { transform: translate(-50%, 20%); opacity: 0; }
+            to { transform: translate(-50%, -50%); opacity: 1; }
+        }
+        @keyframes fadeInText {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes bounceIn {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+    </style>
+{% endblock custom_style %}
+{% block body %}
+        <div class="header">
+            <img src="https://placehold.co/1200x400" alt="Header Image">
+            <div class="header-text">
+                <h1>NITS Events | Are You There-(R U There)</h1>
+                <p>TODAY | 9:30 AM | Chicago History Museum</p>
+            </div>
+        </div>
+        <div class="carousel">
+            {% for club in clubs %}
+            <img src="{{club.img_url}}" alt="{{club.name}}">
+            {% endfor %}
+        </div>
+        <div class="giveaways">
+            <h2>Events <span>Just announced</span></h2>
+            <div class="gallery">
+                {% for event in events %}
+                <a style="text-decoration: none; color: inherit;" href="{% url "event_details" event.id %}">
+                <div class="gallery-item">
+                    <img src="{{event.img_url}}" alt="{{event.name}}">
+                    <span>New</span>
+                    <p>{{event.name}}</p>
+                </div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+{% endblock body %}

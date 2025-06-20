@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+    {% block title %}Confirmation Page{% endblock title %}
+    {% block custom_style %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1a1a1a;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 800px;
+        }
+        .header {
+            color: #00aaff;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        .details {
+            color: #00aaff;
+            font-size: 1.2em;
+            margin: 10px 0;
+        }
+        .about, .ticket {
+            background: #222;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 5px solid #00aaff;
+        }
+        .about p, .ticket ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .ticket ul li {
+            margin: 5px 0;
+        }
+        .price {
+            font-size: 1.5em;
+            color: #00aaff;
+        }
+        nav {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+        nav a {
+            color: #fff;
+            margin-left: 15px;
+            text-decoration: none;
+        }
+        nav a:hover {
+            color: #00aaff;
+        }
+
+        .btn {
+            display: inline-block;
+            background: linear-gradient(to right, #007bff, #00bfff);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            width: 80%;
+            text-align: center;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.4);
+        }
+    </style>
+    {% endblock custom_style %}
+{% block body %}
+        {% block navbar %}{% endblock navbar %}
+        <div class="header">Event Confirmation</div>
+        <div class="details">{{event.date}} &bull; {{event.time}} &bull; {{event.location}}</div>
+        <div class="details">Limited Time Event</div>
+        <div class="about">
+            <p>About the Event</p>
+            <p>{{event.name}}</p>
+        </div>
+        <div class="ticket">
+            <div class="price">${{event.price}}</div>
+            <ul>
+                <li>✓ Access to all Event areas</li>
+                <li>✓ Fully Guided</li>
+            </ul>
+        </div>
+        <a href="{% url "student_home" %}" class="btn">Back to Home</a>
+{% endblock body %}

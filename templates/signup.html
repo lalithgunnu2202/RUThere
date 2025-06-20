@@ -1,0 +1,388 @@
+{% extends "base.html" %}
+    {% block title %}Sign Up{% endblock title %}
+    {% block custom_style %}
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@200..900&display=swap');
+        
+        body {
+            font-family: Unbounded, sans-serif;
+            background-color: #1a1a1a;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        .navbar {
+            background-color: #2a2a2a;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 123, 255, 0.2);
+            animation: slideDown 0.8s ease-out;
+        }
+
+        .logo {
+            font-size: 1.5em;
+            color: #007bff;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+            text-decoration: none;
+        }
+
+        .logo:hover {
+            color: #0056b3;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links li {
+            margin-left: 20px;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1em;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #007bff;
+            transform: translateY(-2px);
+        }
+        
+        .signup-container {
+            display: flex;
+            flex: 1;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            animation: fadeIn 1s ease-in-out;
+        }
+        
+        .signup-card {
+            background-color: #2a2a2a;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .signup-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 123, 255, 0.2);
+        }
+        
+        .signup-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, #007bff, #00bfff);
+        }
+        
+        .signup-header {
+            margin-bottom: 30px;
+            animation: slideUp 1s ease-out;
+        }
+        
+        .signup-header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+        
+        .signup-header p {
+            color: #aaa;
+            font-size: 0.9em;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+            animation: fadeIn 1s ease-in-out 0.3s forwards;
+            opacity: 0;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #ddd;
+            font-size: 0.9em;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            background-color: #333;
+            border: 1px solid #444;
+            border-radius: 8px;
+            color: #fff;
+            font-family: inherit;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+        }
+        
+        .name-fields {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .name-fields .form-group {
+            flex: 1;
+        }
+        
+        .terms {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            font-size: 0.85em;
+            animation: fadeIn 1s ease-in-out 0.9s forwards;
+            opacity: 0;
+        }
+        
+        .terms input {
+            margin-right: 8px;
+            margin-top: 3px;
+        }
+        
+        .terms a {
+            color: #007bff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .terms a:hover {
+            color: #00bfff;
+            text-decoration: underline;
+        }
+        
+        .signup-btn {
+            background: linear-gradient(to right, #007bff, #00bfff);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: bold;
+            width: 100%;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 20px;
+            animation: fadeIn 1s ease-in-out 1.2s forwards;
+            opacity: 0;
+        }
+        
+        .signup-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.4);
+        }
+        
+        .signup-btn:active {
+            transform: translateY(0);
+        }
+        
+        .login-link {
+            color: #aaa;
+            font-size: 0.9em;
+            animation: fadeIn 1s ease-in-out 1.5s forwards;
+            opacity: 0;
+        }
+        
+        .login-link a {
+            color: #007bff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .login-link a:hover {
+            color: #00bfff;
+            text-decoration: underline;
+        }
+        
+        /* Animations */
+        @keyframes slideDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .signup-card {
+                padding: 30px;
+            }
+            
+            .navbar {
+                flex-direction: column;
+                padding: 10px;
+            }
+            
+            .nav-links {
+                flex-direction: column;
+                align-items: center;
+                margin-top: 10px;
+            }
+            
+            .nav-links li {
+                margin: 10px 0;
+            }
+            
+            .name-fields {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .signup-card {
+                padding: 25px 20px;
+            }
+            
+            .signup-header h1 {
+                font-size: 1.5em;
+            }
+            
+            .logo {
+                font-size: 1.2em;
+            }
+            
+            .nav-links a {
+                font-size: 0.9em;
+            }
+        }
+
+        .form-select {
+            display: block;
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.0;
+            color: #f8f9fa; /* Light text */
+            background-color: #2a2a2a; /* Dark background */
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='%2300bfff' fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 16px 12px;
+            border: 1px solid #444;
+            border-radius: 6px;
+            appearance: none;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            }
+
+            .form-select:focus {
+            border-color: #007bff;
+            outline: 0;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+            }
+
+            .form-select option {
+            color: #f8f9fa;
+            background-color: #2a2a2a;
+            }
+
+            .form-select option:checked {
+            background-color: #007bff;
+            color: white;
+            }
+
+            .form-select option:hover {
+            background-color: #00bfff;
+            }
+    </style>
+    {% endblock custom_style %}
+    {% block body %}
+    <div class="signup-container">
+        <div class="signup-card">
+            <div class="signup-header">
+                <h1>Create Your Account</h1>
+                <p>Join EventHub to discover amazing events and giveaways</p>
+            </div>
+            
+            <form method="post" >
+                {% csrf_token %}
+                <div class="name-fields">
+                    <div class="form-group">
+                        <label for="first-name">Name</label>
+                        <input name="name" type="text" id="first-name" class="form-control" placeholder="Enter your name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="last-name">Username</label>
+                        <input name="username" type="text" id="last-name" class="form-control" placeholder="Create your username" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input name="email" type="email" id="email" class="form-control" placeholder="Enter your email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input name="password1" type="password" id="password" class="form-control" placeholder="Create a password" required >
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirm-password">Confirm Password</label>
+                    <input name="password2" type="password" id="confirm-password" class="form-control" placeholder="Confirm your password" required>
+                </div>
+                <select name="role" class="form-select" aria-label="Event category selection">
+                    <option selected disabled>Select Your category</option>
+                    <option value="club">Club</option>
+                    <option value="student">Student</option>
+                </select>
+
+                <div class="terms">
+                    <input type="checkbox" id="agree-terms" required>
+                    <label for="agree-terms">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label>
+                </div>
+                
+                <button type="submit" class="signup-btn">Sign Up</button>
+                
+                <p class="login-link">Already have an account? <a href="{% url "login" %}">Log in</a></p>
+            </form>
+        </div>
+    </div>
+    {% endblock body %}
