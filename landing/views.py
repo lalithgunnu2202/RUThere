@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 def landing_view(request):
     return render(request,'landing.html')
 
-@login_required(login_url='login')
+@login_required(login_url='signup')
 def get_started(request):
     current_user = request.user
     if current_user.role=='club':
