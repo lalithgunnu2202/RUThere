@@ -20,7 +20,7 @@ def user_signup_view(request):
         role = request.POST.get('role')
         new_user = user.objects.create_user(name=name,username=username,password=password1, email=email, role=role)
         new_user.save()
-        messages.info(request,"You are logged in Automatically")
+        messages.info(request,"You are logged in Automatically.")
         if role=='club':
             return redirect('club_home')
         else:
