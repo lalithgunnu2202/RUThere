@@ -24,4 +24,5 @@ urlpatterns = [
     path('rsvp/', include('rsvp.urls')),
     path('accounts/', include('accounts.urls')),
     path('club/', include('club_admin.urls')),
+    path('', include('landing.urls')),
 ]

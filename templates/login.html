@@ -37,6 +37,32 @@
             text-decoration: none;
         }
 
+        .alert {
+            background-color: #e0f2ff; /* light blue background */
+            border-left: 5px solid #007BFF; /* blue left border */
+            color: #004085;
+            padding: 16px 20px;
+            margin: 20px;
+            border-radius: 6px;
+            font-family: Arial, sans-serif;
+            box-shadow: 0 2px 6px rgba(0, 123, 255, 0.2);
+            opacity: 1;
+            animation: fadeOut 3s ease-out forwards;
+            animation-delay: 3s; /* Alert will fade out after 3 seconds */
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        .alert strong {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
         .logo:hover {
             color: #0056b3;
         }

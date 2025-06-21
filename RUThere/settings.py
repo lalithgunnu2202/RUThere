@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'event_details',
     'rsvp',
     'club_admin',
+    'landing',
 ]
 
 MIDDLEWARE = [
@@ -121,6 +122,10 @@ AUTH_USER_MODEL = 'accounts.CustomUser'
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static",  # Make sure this points to the folder where abcd.jpg is
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

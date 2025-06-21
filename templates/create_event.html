@@ -34,6 +34,33 @@
             padding: 20px;
         }
         
+        .alert {
+            background-color: #e0f2ff; /* light blue background */
+            border-left: 5px solid #007BFF; /* blue left border */
+            color: #004085;
+            padding: 16px 20px;
+            margin: 20px;
+            border-radius: 6px;
+            font-family: Arial, sans-serif;
+            box-shadow: 0 2px 6px rgba(0, 123, 255, 0.2);
+            opacity: 1;
+            animation: fadeOut 3s ease-out forwards;
+            animation-delay: 3s; /* Alert will fade out after 3 seconds */
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        .alert strong {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+            
         .form-container {
             max-width: 800px;
             margin: 0 auto;
@@ -201,6 +228,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
+    {% for message in messages %}
+    <div class="alert">
+        <strong>Notice:</strong>
+        {{message}}
+    </div>
+    {% endfor %}
     <div class="form-container">
         <div class="form-header">
             <h1 class="form-title">Create New Event</h1>

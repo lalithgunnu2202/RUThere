@@ -4,19 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock title %} | RUThere</title>
-    {% block custom_style %}{% endblock custom_style %}
+    {% block custom_style %}
+    
+    {% endblock custom_style %}
 </head>
 <body>
     <div class="container">
         {% block navbar %}
         <div class="navbar">
-        <a style="text-decoration: none; color: inherit;" href="{% url "student_home" %}"><div class="logo">EventHub</div></a>
+        <a style="text-decoration: none; color: inherit;" href="{% url "landing_view" %}"><div class="logo">RUThere</div></a>
             <ul class="nav-links">
                 <li><a href="{% url "student_home" %}">Home</a></li>
                 <li><a href="{% url "login" %}">Login</a></li>
+                {% comment %} remove {% endcomment %}
+                <li><a href="{% url "logout" %}">Logout</a></li>
             </ul>
         </div>
         {% endblock navbar %}
+        {% for message in messages %}
+            <div class="alert">
+                <strong>Notice:</strong>
+                {{message}}
+            </div>
+            {% endfor %}
     {% block body %}{% endblock body %}
     </div>
 </body>

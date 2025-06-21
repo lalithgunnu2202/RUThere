@@ -20,6 +20,7 @@ def user_signup_view(request):
         role = request.POST.get('role')
         new_user = user.objects.create_user(name=name,username=username,password=password1, email=email, role=role)
         new_user.save()
+        messages.info(request,"You are logged in Automatically")
         if role=='club':
             return redirect('club_home')
         else:
@@ -30,8 +31,7 @@ def user_signup_view(request):
 def user_login_view(request):
     current_user = request.user
     if current_user.is_authenticated:
-        logout(request)
-        return redirect('student_home')
+        return redirect('get_started')
     if request.method=='POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -49,3 +49,8 @@ def user_login_view(request):
             return redirect('login')
     
     return render(request,'login.html')
+
+def user_logout_view(request):
+    logout(request)
+    messages.info(request,"You have been Logged Out Successfully")
+    return redirect('landing_view')

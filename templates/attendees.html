@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Events Dashboard</title>
+    <title>My Events Attendees</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         
@@ -59,7 +59,6 @@
             font-weight: bold;
             margin-bottom: 5px;
         }
-
         .sidebar {
             width: 250px;
             background-color: var(--darker);
@@ -361,19 +360,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    
     <aside class="sidebar">
         <div class="logo">RUThere</div>
         <div class="user-profile">
             <div class="user-avatar"></div>
             <div>
-                <div class="user-name">{{curr}}</div>
+                <div class="user-name">{{curr.name}}</div>
                 <div class="user-role">Event Organizer</div>
             </div>
         </div>
         <ul class="nav-menu">
             <a style="text-decoration: none; color: inherit;" href="{% url "club_home" %}">
-            <li class="nav-item active">
+            <li class="nav-item">
                 <i class="fas fa-calendar-alt"></i>
                 <span>My Events</span>
             </li>
@@ -391,15 +389,17 @@
                 <span>Analytics</span>
             </li> {% endcomment %}
             <a style="text-decoration: none; color: inherit;" href="{% url "club_attendees" %}">
-            <li class="nav-item">
+            <li class="nav-item active">
                 <i class="fas fa-users"></i>
                 <span>Attendees</span>
             </li>
             </a>
+            <a style="text-decoration: none; color: inherit;" href="">
             <li class="nav-item">
                 <i class="fas fa-cog"></i>
                 <span>Settings</span>
             </li>
+            </a>
             {% comment %} remove {% endcomment %}
             <a style="text-decoration: none; color: inherit;" href="{% url "logout" %}">
             <li class="nav-item">
@@ -411,38 +411,11 @@
     
     <main class="main-content">
         <div class="header">
-            <h1 class="page-title">My Events Dashboard</h1>
-            <a style="text-decoration: none;" href="{% url "create_event" %}" class="btn">
+            <h1 class="page-title">Attendees Dashboard</h1>
+            {% comment %} <a style="text-decoration: none;" href="{% url "create_event" %}" class="btn">
                 <i class="fas fa-plus"></i>
                 New Event
-            </a>
-        </div>
-        
-        <div class="stats-container">
-            <div class="stat-card">
-                <div class="stat-title">Total Events</div>
-                <div class="stat-value">{{events.count}}</div>
-                {% comment %} <div class="stat-change positive">
-                    <i class="fas fa-arrow-up"></i>
-                    +2 from last month
-                </div> {% endcomment %}
-            </div>
-            {% comment %} <div class="stat-card">
-                <div class="stat-title">Upcoming Events</div>
-                <div class="stat-value">5</div>
-                <div class="stat-change positive">
-                    <i class="fas fa-arrow-up"></i>
-                    +1 from last month
-                </div>
-            </div> {% endcomment %}
-            <div class="stat-card">
-                <div class="stat-title">Total Attendees</div>
-                <div class="stat-value">{{registered}}</div>
-                {% comment %} <div class="stat-change positive">
-                    <i class="fas fa-arrow-up"></i>
-                    +15% from last month
-                </div> {% endcomment %}
-            </div>
+            </a> {% endcomment %}
         </div>
         {% for message in messages %}
         <div class="alert">
@@ -452,34 +425,28 @@
         {% endfor %}
         <div class="events-container">
             <div class="section-header">
-                <h2 class="section-title">My Events</h2>
-                <div class="view-all">View All</div>
+                <h2 class="section-title">Attendees</h2>
+                {% comment %} <div class="view-all">View All</div> {% endcomment %}
             </div>
             
             <table class="events-table">
                 <thead>
                     <tr>
-                        <th></th>
+                        <th>Student Name</th>
                         <th>Event Name</th>
-                        <th>Date</th>
-                        <th>Location</th>
-                        <th>Tickets Sold</th>
                         <th>Status</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for event in events %}
+                    {% for attendee in attendees %}
                     <tr>
-                        <td><img src="{{event.img_url}}" class="event-image"></td>
-                        <td>{{event.name}}</td>
-                        <td>{{event.date}},{{event.time}} </td>
-                        <td>{{event.location}}</td>
-                        <td>{{event.reg_count}}</td>
+                        <td>{{attendee.student}}</td>
+                        <td>{{attendee.event}}</td>
                         <td><span class="status-badge active">Active</span></td>
                         <td>
                             <button class="action-btn edit"><i class="fas fa-edit"></i></button>
-                            <a href="{% url "delete_event" event.id %}" class="action-btn delete"><i class="fas fa-trash"></i></a>
+                            <a href="{% url "delete_attendee" attendee.id %}" class="action-btn delete"><i class="fas fa-trash"></i></a>
                         </td>
                     </tr>
                     {% endfor %}
